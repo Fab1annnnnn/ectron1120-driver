@@ -1,24 +1,25 @@
 from ectron1120.driver import Ectron1120
 
-def automatizacion_prueba():
-    calibrador = Ectron1120('GPIB0::14::INSTR')
-    calibrador.connect()
-    calibrador.clear_errors()
+def automation_test():
+    calibrator = Ectron1120('GPIB0::14::INSTR')
     
-    # 1. Configuramos 100 grados y lo GUARDAMOS en la memoria 1
-    calibrador.set_temperatura(100, 'K')
-    calibrador.guardar_configuracion(1)
-    calibrador.execute()
+    calibrator.connect()
+    calibrator.clear_errors()
     
-    # 2. Configuramos otra cosa distinta
-    calibrador.set_millivoltios(15.0)
-    calibrador.execute()
+    # Test 1: Simulate 100 degrees on a Type K thermocouple and store it
+    calibrator.set_temperature(100.0, 'K')
+    calibrator.store_configuration(1)
+    calibrator.execute()
     
-    # 3. LLAMAMOS la configuración que guardamos en el paso 1
-    calibrador.cargar_configuracion(1)
-    calibrador.execute()
+    # Test 2: Generate direct voltage
+    calibrator.set_millivolts(25.5)
+    calibrator.execute()
     
-    calibrador.disconnect()
+    # Test 3: Recall the configuration saved in Test 1
+    calibrator.recall_configuration(1)
+    calibrator.execute()
+    
+    calibrator.disconnect()
 
 if __name__ == "__main__":
-    automatizacion_prueba()
+    automation_test()
